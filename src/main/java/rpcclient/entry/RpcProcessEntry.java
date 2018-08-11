@@ -8,8 +8,11 @@ import io.netty.util.CharsetUtil;
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * 对应的连接实体
+ *
  * Created by Administrator on 2018/8/4.
  */
+
 public class RpcProcessEntry {
 
 

@@ -1,7 +1,7 @@
-package rpcclient.integration.rpctest.service;
+package service.rpctest.service;
 
 
-import rpcclient.integration.rpctest.service.model.StringResultModel;
+import service.rpctest.service.model.StringResultModel;
 
 /**
  * Created by Administrator on 2018/8/4.

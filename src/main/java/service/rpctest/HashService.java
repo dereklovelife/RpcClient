@@ -1,4 +1,4 @@
-package rpcclient.integration.rpctest.service;
+package service.rpctest;
 
 /**
  * Created by Administrator on 2018/8/4.

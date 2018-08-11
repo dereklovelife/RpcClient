@@ -30,19 +30,19 @@ public class ProxyFactoryImpl implements ProxyFactory{
 
     /**
      * 根据接口信息以及server地址生成一个代理类
-     * @param InterfaceType
+     * @param interfaceType
      * @param host
      * @param port
      * @return
      */
-    public Object getProxy(Class InterfaceType, String host, int port) {
-        final RpcProcessEntry entry = factory.getRpcEntry(host, port);
-        return createProxy(InterfaceType, entry);
-    }
-
-    private Object createProxy(final Class interfaceType, final RpcProcessEntry entry){
+    public Object getProxy(final Class interfaceType, final String host, final int port) {
         return Proxy.newProxyInstance(interfaceType.getClassLoader(), new Class[]{interfaceType}, new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                // 每次都生成一个单独的entry,来完成通信
+                // 每一次方法调用使用一个单独的entry. channel完成
+                final RpcProcessEntry entry = factory.getRpcEntry(host, port);
+
                 // 1. 编码，生成request
                 RpcRequest rpcRequest = new RpcRequest();
                 rpcRequest.setInterfaceType(interfaceType.getSimpleName());
@@ -55,6 +55,7 @@ public class ProxyFactoryImpl implements ProxyFactory{
 
                 // 3. 解析响应内容
                 RpcResult rpcResult = encodeExecutor.toResult(byteResult);
+
                 if(rpcResult.getSuccess().equals("F")){
                     throw new RuntimeException(interfaceType.getSimpleName() + "rpc call error: " + rpcResult.getErrorCode());
                 }
